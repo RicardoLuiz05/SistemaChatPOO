@@ -14,7 +14,7 @@ public class Fachada {
 	public static void criarIndividuo(String nomeindividuo, String senha ) throws Exception {
 		Participante p = repositorio.localizarIndividuo(senha);
 		if (p!=null) 
-			throw new Exception("Nao foi possivel criar usario - nome " + nomeindividuo + " já cadastrado!");
+			throw new Exception("Nao foi possivel criar usuário - nome " + nomeindividuo + " já cadastrado!");
 
 		p = new Participante(nomeindividuo);
 		repositorio.adicionarParticipante(senha,p);
@@ -29,8 +29,6 @@ public class Fachada {
 		
 		return true;
 
-		
-		
 	}
 	
 	public static void criarAdministrador(String nomeadministrador, String senha) {
