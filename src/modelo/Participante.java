@@ -2,6 +2,8 @@ package modelo;
 
 import java.util.ArrayList;
 
+import regras_negocio.Fachada;
+
 public class Participante {
 	
 	private String nome;
@@ -17,7 +19,7 @@ public class Participante {
 	}
 
 	public void setNome(String nome) throws Exception {
-		if (nome.equals("")) {
+		if (nome.equals("") || Fachada.getRepositorio().existeParticipante(nome)) {
 			throw new Exception("Nome vazio ou já existente");
 		}
 		this.nome = nome;
