@@ -3,19 +3,23 @@ package modelo;
 import java.util.ArrayList;
 
 public class Participante {
+	
 	private String nome;
 	private ArrayList<Mensagem> recebidas = new ArrayList<>();
 	private ArrayList<Mensagem> enviadas = new ArrayList<>();
 	
-	public Participante(String nome) {
-		this.nome = nome;
+	public Participante(String nome) throws Exception {
+		this.setNome(nome);
 	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(String nome) throws Exception {
+		if (nome.equals("")) {
+			throw new Exception("Nome vazio ou já existente");
+		}
 		this.nome = nome;
 	}
 
