@@ -43,10 +43,21 @@ public class Individual extends Participante {
 	public void setGrupos(ArrayList<Grupo> grupos) {
 		this.grupos = grupos;
 	}
+	
+	public void addGrupo(Grupo grupo) {
+		this.grupos.add(grupo);
+		this.setGrupos(grupos);
+	}
+	
+	public void rmvGrupo(Grupo grupo) {
+		this.grupos.remove(grupo);
+	}
 
 	@Override
 	public String toString() {
-		return "Individual [senha=" + senha + ", administrador=" + administrador + ", grupos=" + grupos + "]";
+		return "Individual [senha=" + senha + ", administrador=" + administrador + "]" +"GRUPO"+ this.getGrupos();
 	}
+
+	
 	
 }

@@ -70,7 +70,7 @@ public class Fachada {
 	public static void criarMensagem(String nomeindividuo, String nomedestinatario, String texto) throws Exception {
 		if (!repositorio.existeParticipante(nomeindividuo)) {
 			throw new Exception("Emitente inexistente");
-		} else if (!repositorio.existeGrupo(nomedestinatario)) {
+		} else if (!repositorio.existeParticipante(nomedestinatario)) {
 			throw new Exception("Destinatario inexistente");
 		} else {
 			repositorio.criarMensagem(nomeindividuo, nomedestinatario, texto);
@@ -80,7 +80,7 @@ public class Fachada {
 	public static ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) throws Exception {
 		if (!repositorio.existeParticipante(nomeindividuo)) {
 			throw new Exception("Emitente inexistente");
-		} else if (!repositorio.existeGrupo(nomedestinatario)) {
+		} else if (!repositorio.existeParticipante(nomedestinatario)) {
 			throw new Exception("Destinatario inexistente");
 		} else {
 			return repositorio.obterConversa(nomeindividuo, nomedestinatario);

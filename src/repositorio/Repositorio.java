@@ -95,30 +95,43 @@ public class Repositorio {
     
     public void addPessoaNoGrupo(String nomeindividuo, String nomegrupo) {
     	Individual pessoa = null;
+    	Grupo grupo = null;
     	for (Participante a : participantes.values()) {
     		if (a instanceof Individual i && a.getNome().equals(nomeindividuo)) {
     			pessoa = i;
+    			break;
+
     		}
     	}
     	for (Participante a : participantes.values()) {
 	    	if (a instanceof Grupo g && a.getNome().equals(nomegrupo)) {
-				g.addParticipante(pessoa);
-			}
+				grupo = g;
+				break;
+	    	}
     	}
+	    pessoa.addGrupo(grupo);
+    	grupo.addParticipante(pessoa);
+    	
     }
     
     public void rmvPessoaDoGrupo(String nomeindividuo, String nomegrupo) {
     	Individual pessoa = null;
+    	Grupo grupo = null;
     	for (Participante a : participantes.values()) {
     		if (a instanceof Individual i && a.getNome().equals(nomeindividuo)) {
     			pessoa = i;
+    			break;
+
     		}
     	}
     	for (Participante a : participantes.values()) {
 	    	if (a instanceof Grupo g && a.getNome().equals(nomegrupo)) {
-				g.rmvParticipante(pessoa);
-			}
+				grupo = g;
+				break;
+	    	}
     	}
+	    pessoa.rmvGrupo(grupo);
+    	grupo.rmvParticipante(pessoa);
     }
     
     public void criarMensagem(String nomeindividuo, String nomedestinatario, String texto) throws Exception {
@@ -137,6 +150,7 @@ public class Repositorio {
     	if (destinatario instanceof Individual) {
     		Mensagem mensagem = new Mensagem(texto, emitente, destinatario);
     		mensagens.put(mensagem.getId(), mensagem);
+    		
     	} else if (destinatario instanceof Grupo g) {
     		for (Individual dest : g.getIndividuos()) {
     			if (!dest.equals(emitente)) {
@@ -150,7 +164,8 @@ public class Repositorio {
     public ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) {
     	ArrayList<Mensagem> conversa = new ArrayList<>();
     	for (Mensagem m : mensagens.values()) {
-    		if (m.getEminente().getNome().equals(nomeindividuo) && m.getDestinatario().getNome().equals(nomedestinatario) || m.getDestinatario().getNome().equals(nomeindividuo) && m.getEminente().getNome().equals(nomedestinatario)) {
+    		if (m.getEminente().getNome().equals(nomeindividuo) && m.getDestinatario().getNome().equals(nomedestinatario)
+    				|| m.getDestinatario().getNome().equals(nomeindividuo) && m.getEminente().getNome().equals(nomedestinatario)) {
     			conversa.add(m);
     		}
     	}

@@ -78,10 +78,13 @@ public class Mensagem {
 	public void setDatahora(LocalDateTime datahora) {
 		this.datahora = datahora;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Mensagem [id=" + id + ", texto=" + texto + ", eminente=" + eminente + ", datahora=" + datahora + "]";
+		return "Mensagem [id=" + id + ", texto=" + texto + ", eminente=" + eminente.getNome() + ", destinatario=" + destinatario.getNome()
+				+ ", datahora=" + datahora + "]";
+	}
+	
 	}
 
-}
+
