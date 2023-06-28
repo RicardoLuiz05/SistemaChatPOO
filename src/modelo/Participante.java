@@ -40,6 +40,14 @@ public class Participante {
 	public void setEnviadas(ArrayList<Mensagem> enviadas) {
 		this.enviadas = enviadas;
 	}
+	
+	public void removerRecebida(Mensagem mensagem) {
+		for (Mensagem m : this.getRecebidas()) {
+			if (m.equals(mensagem)) {
+				this.getRecebidas().remove(m);
+			}
+		}
+	}
 
 	@Override
 	public String toString() {

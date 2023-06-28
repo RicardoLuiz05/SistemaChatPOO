@@ -12,7 +12,6 @@ import modelo.Participante;
 
 public class Repositorio {
 	
-	public static int idMensagem = 1;
     private TreeMap<String, Participante> participantes;
     private TreeMap<Integer, Mensagem> mensagens;
     
@@ -29,12 +28,8 @@ public class Repositorio {
         this.participantes = participantes;
     }
 
-    public ArrayList<Mensagem> getMensagens() {
-    	ArrayList<Mensagem> mensagem = new ArrayList<>();
-        for(Mensagem m : mensagens.values()) {
-            mensagem.add(m);
-        }
-        return mensagem;
+    public TreeMap<Integer, Mensagem> getMensagens() {
+    	return mensagens;
     }
 
     public void setMensagens(TreeMap<Integer, Mensagem> mensagens) {
@@ -48,6 +43,38 @@ public class Repositorio {
     public void salvarObjetos() {
         
     }
+    
+    public Individual localizarIndividual(String nome) {
+    	for (Participante participante : participantes.values()) {
+    		if (participante instanceof Individual i && participante.getNome().equals(nome)) {
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+    
+    public Participante localizarParticipante(String nome) {
+    	for (Participante participante : participantes.values()) {
+    		if (participante.getNome().equals(nome)) {
+    			return participante;
+    		}
+    	}
+    	return null;
+    }
+    
+    public void adicionar(Individual individuo) {
+    	participantes.put(individuo.getNome(), individuo);
+    }
+    
+    public void remover(Mensagem mensagem) {
+    	for (Mensagem m : mensagens.values()) {
+    		if (m.equals(mensagem)) {
+    			mensagens.remove(mensagem.getId());
+    		}
+    	}
+    }
+    
+    /*===============================================================================*/
     
     public boolean existeParticipante(String nomeParticipante) {
     	for (String nome : participantes.keySet()) {
@@ -134,33 +161,6 @@ public class Repositorio {
     	grupo.rmvParticipante(pessoa);
     }
     
-    public void criarMensagem(String nomeindividuo, String nomedestinatario, String texto) throws Exception {
-    	Individual emitente = null;
-    	Participante destinatario = null;
-    	for (Participante a : participantes.values()) {
-    		if (a instanceof Individual i && a.getNome().equals(nomeindividuo)) {
-    			emitente = i;
-    		}
-    	}
-    	for (Participante a : participantes.values()) {
-    		if (a.getNome().equals(nomedestinatario)) {
-    			destinatario = a;
-    		}
-    	}
-    	if (destinatario instanceof Individual) {
-    		Mensagem mensagem = new Mensagem(texto, emitente, destinatario);
-    		mensagens.put(mensagem.getId(), mensagem);
-    		
-    	} else if (destinatario instanceof Grupo g) {
-    		for (Individual dest : g.getIndividuos()) {
-    			if (!dest.equals(emitente)) {
-    				Mensagem mensagem = new Mensagem(Repositorio.idMensagem, texto, emitente, dest);
-    				mensagens.put(mensagem.getId(), mensagem);
-    			}
-    		}
-    	}
-    }
-    
     public ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) {
     	ArrayList<Mensagem> conversa = new ArrayList<>();
     	for (Mensagem m : mensagens.values()) {
@@ -195,16 +195,6 @@ public class Repositorio {
     		}
     	}
     }
-    
-    /*
-    public ArrayList<Mensagem> listarMensagens() {
-    	ArrayList<Mensagem> msgs = new ArrayList<>();
-		for (Mensagem m : mensagens.values()) {
-			msgs.add(m);
-		}
-		return msgs;
-    }
-    */
     
     public ArrayList<Mensagem> enviadas(String nomeindividuo) {
     	ArrayList<Mensagem> enviadas = new ArrayList<>();

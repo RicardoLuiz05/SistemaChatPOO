@@ -16,6 +16,12 @@ public class Individual extends Participante {
 		}
 	}
 	
+	public Individual(String nome, String senha, boolean administrador) throws Exception {
+		super(nome);
+		this.setSenha(senha);
+		this.administrador = administrador;
+	}
+	
 	public String getSenha() {
 		return senha;
 	}
@@ -52,12 +58,36 @@ public class Individual extends Participante {
 	public void rmvGrupo(Grupo grupo) {
 		this.grupos.remove(grupo);
 	}
+	
+	public Grupo localizarGrupo(String nome) {
+		for (Grupo g : grupos) {
+			if (g.getNome().equals(nome)) {
+				return g;
+			}
+		}
+		return null;
+	}
+	
+	public Mensagem localizarEnviada(int id) {
+		for (Mensagem m : this.getEnviadas()) {
+			if (m.getId() == id) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	public void removerEnviada(Mensagem mensagem) {
+		for (Mensagem m : this.getEnviadas()) {
+			if (m.equals(mensagem)) {
+				this.getEnviadas().remove(mensagem);
+			}
+		}
+	}
 
 	@Override
 	public String toString() {
 		return "Individual [senha=" + senha + ", administrador=" + administrador + "]" +"GRUPO"+ this.getGrupos();
 	}
 
-	
-	
 }

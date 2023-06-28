@@ -12,16 +12,7 @@ public class Mensagem {
 	private Participante destinatario;
 	private LocalDateTime datahora;
 	
-	public Mensagem(String texto, Participante eminente, Participante destinatario) throws Exception {
-		super();
-		this.setId();
-		this.setTexto(texto);
-		this.eminente = eminente;
-		this.setDestinatario(destinatario);
-		this.setDatahora(LocalDateTime.now());
-	}
-	
-	public Mensagem(int id, String texto, Participante eminente, Participante destinatario) throws Exception {
+	public Mensagem(int id, Participante eminente, Participante destinatario, String texto) throws Exception {
 		super();
 		this.setId(id);
 		this.setTexto(texto);
@@ -36,11 +27,6 @@ public class Mensagem {
 	
 	public void setId(int id) {
 		this.id = id;
-	}
-	
-	public void setId() {
-		this.setId(Repositorio.idMensagem);
-		Repositorio.idMensagem++;
 	}
 	
 	public String getTexto() {
