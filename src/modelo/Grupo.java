@@ -8,7 +8,6 @@ public class Grupo extends Participante {
 	
 	public Grupo(String nome) throws Exception {
 		super(nome);
-
 		individuos = new ArrayList<>();
 	}
 
@@ -22,7 +21,10 @@ public class Grupo extends Participante {
 	
 	public void addParticipante(Individual individual) {
 		this.individuos.add(individual);
-		this.setIndividuos(individuos);
+	}
+	
+	public void adicionar(Individual individual) {
+		this.individuos.add(individual);
 	}
 	
 	public void rmvParticipante(Individual individual) {
@@ -31,6 +33,10 @@ public class Grupo extends Participante {
 
 	@Override
 	public String toString() {
-		return super.getNome();
-	}
+        String string = super.toString() + "\n Individuos do grupo: ";
+            for (Individual ind : individuos) {
+                string += "\n  --> " + ind.getNome();
+            }
+        return string;
+    }
 }

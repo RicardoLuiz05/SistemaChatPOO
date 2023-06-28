@@ -2,6 +2,8 @@ package modelo;
 
 import java.util.ArrayList;
 
+import regras_negocio.Fachada;
+
 public class Individual extends Participante {
 
 	private String senha;
@@ -86,8 +88,14 @@ public class Individual extends Participante {
 	}
 
 	@Override
-	public String toString() {
-		return "Individual [senha=" + senha + ", administrador=" + administrador + "]" +"GRUPO"+ this.getGrupos();
-	}
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nome: ").append(super.getNome()).append("\n");
+        sb.append("Mensagens Enviadas: ").append("\n").append("\n");
+        sb.append(Fachada.getRepositorio().enviadas(getNome())).append("\n");
+        sb.append("Mensagens Recebidas: ").append("\n");
+        sb.append(Fachada.getRepositorio().recebidas(getNome()));
+        return sb.toString();
+    }
 
 }

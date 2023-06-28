@@ -51,7 +51,15 @@ public class Participante {
 
 	@Override
 	public String toString() {
-		return "Participante [nome=" + nome + ", recebidas=" + recebidas + ", enviadas=" + enviadas + "]";
-	}
+        String string = "Nome=" + nome + "\n Mensagens enviadas: ";
+            for(Mensagem m : enviadas) {
+                string += "\n  --> " + m;
+            }
+        string += " Mensagens recebidas: ";
+            for(Mensagem m : recebidas) {
+                string += "\n  --> " + m;
+            }
+        return string;
+    }
 
 }

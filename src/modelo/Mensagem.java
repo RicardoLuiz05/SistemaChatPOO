@@ -1,22 +1,21 @@
 package modelo;
 
 import java.time.LocalDateTime;
-
-import repositorio.Repositorio;
+import java.time.format.DateTimeFormatter;
 
 public class Mensagem {
 	
 	private int id;
 	private String texto;
-	private Participante eminente;
+	private Participante emitente;
 	private Participante destinatario;
 	private LocalDateTime datahora;
 	
-	public Mensagem(int id, Participante eminente, Participante destinatario, String texto) throws Exception {
+	public Mensagem(int id, Participante emitente, Participante destinatario, String texto) throws Exception {
 		super();
 		this.setId(id);
 		this.setTexto(texto);
-		this.eminente = eminente;
+		this.emitente = emitente;
 		this.setDestinatario(destinatario);
 		this.setDatahora(LocalDateTime.now());
 	}
@@ -41,12 +40,12 @@ public class Mensagem {
 		}
 	}
 	
-	public Participante getEminente() {
-		return eminente;
+	public Participante getEmitente() {
+		return emitente;
 	}
 	
-	public void setEminente(Participante eminente) {
-		this.eminente = eminente;
+	public void setEmitente(Participante eminente) {
+		this.emitente = eminente;
 	}
 	
 	public Participante getDestinatario() {
@@ -67,10 +66,10 @@ public class Mensagem {
 
 	@Override
 	public String toString() {
-		return "Mensagem [id=" + id + ", texto=" + texto + ", eminente=" + eminente.getNome() + ", destinatario=" + destinatario.getNome()
-				+ ", datahora=" + datahora + "]";
-	}
+        return "---> " + id + " texto= " + texto + ", eminente= " + emitente.getNome() + ", destinatario= " + destinatario.getNome()
+                + ", datahora=" + datahora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "\n";
+    }
 	
-	}
+}
 
 
