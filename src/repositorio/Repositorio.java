@@ -3,8 +3,6 @@ package repositorio;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -16,27 +14,19 @@ import modelo.Participante;
 public class Repositorio {
 	
     private TreeMap<String, Participante> participantes;
-    private TreeMap<Integer, Mensagem> mensagens;
+    private ArrayList<Mensagem> mensagens;
     
     public Repositorio() {
     	participantes = new TreeMap<>();
-    	mensagens = new  TreeMap<>();
+    	mensagens = new ArrayList<>();
     }
 
     public TreeMap<String, Participante> getParticipantes() {
         return participantes;
     }
 
-    public void setParticipantes(TreeMap<String, Participante> participantes) {
-        this.participantes = participantes;
-    }
-
-    public TreeMap<Integer, Mensagem> getMensagens() {
+    public ArrayList<Mensagem> getMensagens() {
     	return mensagens;
-    }
-
-    public void setMensagens(TreeMap<Integer, Mensagem> mensagens) {
-        this.mensagens = mensagens;
     }
     
     public Individual localizarIndividual(String nome) {
@@ -57,157 +47,30 @@ public class Repositorio {
     	return null;
     }
     
+    public Grupo localizarGrupo(String nome) {
+    	for (Participante participante : participantes.values()) {
+    		if (participante instanceof Grupo g && participante.getNome().equals(nome)) {
+    			return g;
+    		}
+    	}
+    	return null;
+    }
+    
     public void adicionar(Participante participante) {
     	participantes.put(participante.getNome(), participante);
     }
     
     public void adicionar(Mensagem mensagem) {
-    	mensagens.put(mensagem.getId(), mensagem);
+    	mensagens.add(mensagem);
     }
     
     public void remover(Mensagem mensagem) {
-    	for (Mensagem m : mensagens.values()) {
-    		if (m.equals(mensagem)) {
-    			mensagens.remove(mensagem.getId());
-    		}
-    	}
-    }
-    
-    /*===============================================================================*/
-    
-    public boolean existeParticipante(String nomeParticipante) {
-    	for (String nome : participantes.keySet()) {
-    		if (nome.equals(nomeParticipante)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    public void adicionarParticipante(String nome, String senha) throws Exception {
-    	participantes.put(nome, new Individual(nome, senha));
-    }
-    
-    public boolean existeAdmin(String nomeadministrador) {
-    	for (Participante a : participantes.values()) {
-    		if (a instanceof Individual i && i.getNome().equals(nomeadministrador) && i.getAdministrador() == true) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    public void adicionarAdmin(String nome, String senha) throws Exception {
-    	participantes.put(nome, new Individual(nome, senha));
-    	for (Participante a : participantes.values()) {
-    		if (a instanceof Individual i && a.getNome().equals(nome)) {
-    			i.setAdministrador(true);
-    		}
-    	}
-    }
-
-    public boolean existeGrupo(String nomegrupo) {
-    	for (Participante a : participantes.values()) {
-    		if (a instanceof Grupo g && a.getNome().equals(nomegrupo)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    public void adicionarGrupo(String nomegrupo) throws Exception {
-    	participantes.put(nomegrupo, new Grupo(nomegrupo));
-    }
-    
-    public void addPessoaNoGrupo(String nomeindividuo, String nomegrupo) {
-    	Individual pessoa = null;
-    	Grupo grupo = null;
-    	for (Participante a : participantes.values()) {
-    		if (a instanceof Individual i && a.getNome().equals(nomeindividuo)) {
-    			pessoa = i;
-    			break;
-
-    		}
-    	}
-    	for (Participante a : participantes.values()) {
-	    	if (a instanceof Grupo g && a.getNome().equals(nomegrupo)) {
-				grupo = g;
-				break;
-	    	}
-    	}
-	    pessoa.addGrupo(grupo);
-    	grupo.addParticipante(pessoa);
-    	
-    }
-    
-    public void rmvPessoaDoGrupo(String nomeindividuo, String nomegrupo) {
-    	Individual pessoa = null;
-    	Grupo grupo = null;
-    	for (Participante a : participantes.values()) {
-    		if (a instanceof Individual i && a.getNome().equals(nomeindividuo)) {
-    			pessoa = i;
-    			break;
-
-    		}
-    	}
-    	for (Participante a : participantes.values()) {
-	    	if (a instanceof Grupo g && a.getNome().equals(nomegrupo)) {
-				grupo = g;
-				break;
-	    	}
-    	}
-	    pessoa.rmvGrupo(grupo);
-    	grupo.rmvParticipante(pessoa);
-    }
-    
-    public ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) {
-    	ArrayList<Mensagem> conversa = new ArrayList<>();
-    	for (Mensagem m : mensagens.values()) {
-    		if (m.getEmitente().getNome().equals(nomeindividuo) && m.getDestinatario().getNome().equals(nomedestinatario)
-    				|| m.getDestinatario().getNome().equals(nomeindividuo) && m.getEmitente().getNome().equals(nomedestinatario)) {
-    			conversa.add(m);
-    		}
-    	}
-    	Collections.sort(conversa, new Comparator<Mensagem>() {
-            public int compare(Mensagem m1,Mensagem m2) {
-                return Integer.compare(m1.getId(), m2.getId());
-            }
-        });
-    	return conversa;
-    }
-    
-    public boolean existeMsg(int id) {
-    	for (Mensagem m : mensagens.values()) {
-    		if (m.getId() == id) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    public ArrayList<Mensagem> enviadas(String nomeindividuo) {
-    	ArrayList<Mensagem> enviadas = new ArrayList<>();
-    	for (Mensagem m : mensagens.values()) {
-    		if (m.getEmitente().getNome().equals(nomeindividuo)) {
-    			enviadas.add(m);
-    		}
-    	}
-    	return enviadas;
-    }
-    
-    public ArrayList<Mensagem> recebidas(String nomeindividuo) {
-    	ArrayList<Mensagem> recebidas = new ArrayList<>();
-    	for (Mensagem m : mensagens.values()) {
-    		if (m.getDestinatario().getNome().equals(nomeindividuo)) {
-    			recebidas.add(m);
-    		}
-    	}
-    	return recebidas;
+    	mensagens.remove(mensagem);
     }
     
     public ArrayList<Individual> getIndividuos() {
     	ArrayList<Individual> individuos = new ArrayList<>();
-    	for (Participante p : participantes.values()) {
+    	for (Participante p : this.getParticipantes().values()) {
     		if (p instanceof Individual i) {
     			individuos.add(i);
     		}
@@ -217,7 +80,7 @@ public class Repositorio {
     
     public ArrayList<Grupo> getGrupos() {
     	ArrayList<Grupo> grupos = new ArrayList<>();
-    	for (Participante p : participantes.values()) {
+    	for (Participante p : this.getParticipantes().values()) {
     		if (p instanceof Grupo g) {
     			grupos.add(g);
     		}
@@ -225,40 +88,6 @@ public class Repositorio {
     	return grupos;
     }
     
-    public ArrayList<Mensagem> espionar(String termo) {
-    	ArrayList<Mensagem> msgs = new ArrayList<>();
-    	for (Mensagem m : mensagens.values()) {
-    		if (m.getTexto().contains(termo)) {
-    			msgs.add(m);
-    		}
-    	}
-    	return msgs;
-    }
-    
-    public boolean mandouMsg(String nome) {
-    	for (Mensagem m : mensagens.values()) {
-    		if (m.getEmitente().getNome().equals(nome)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    public ArrayList<String> ausentes() {
-    	ArrayList<String> ausentes = new ArrayList<>();
-    	for (Participante p : participantes.values()) {
-    		if (p instanceof Individual i && !this.mandouMsg(i.getNome())) {
-    			ausentes.add(i.getNome());
-    		}
-    	}
-    	return ausentes;
-    }
-    
-	@Override
-	public String toString() {
-		return "Repositorio [participantes=" + participantes + ", mensagens=" + mensagens + "]";
-	}
-	
 	public void carregarObjetos()  	{
 		// carregar para o repositorio os objetos dos arquivos csv
 		try {
@@ -360,7 +189,7 @@ public class Repositorio {
 		try	{
 			File f = new File( new File(".\\mensagens.csv").getCanonicalPath())  ;
 			FileWriter arquivo1 = new FileWriter(f); 
-			for(Mensagem m : mensagens.values()) 	{
+			for(Mensagem m : mensagens) 	{
 				arquivo1.write(	m.getId()+";"+
 						m.getEmitente().getNome()+";"+
 						m.getDestinatario().getNome()+";"+

@@ -2,8 +2,6 @@ package modelo;
 
 import java.util.ArrayList;
 
-import regras_negocio.Fachada;
-
 public class Individual extends Participante {
 
 	private String senha;
@@ -12,15 +10,15 @@ public class Individual extends Participante {
 	
 	public Individual(String nome, String senha) throws Exception {
 		super(nome);
-		this.setSenha(senha);
+		this.senha = senha;
 		if (nome.equals("admin") && senha.equals("admin")) {
 			this.administrador = true;
 		}
 	}
 	
-	public Individual(String nome, String senha, boolean administrador) throws Exception {
+	public Individual(String nome, String senha, boolean administrador) {
 		super(nome);
-		this.setSenha(senha);
+		this.senha = senha;
 		this.administrador = administrador;
 	}
 	
@@ -28,12 +26,9 @@ public class Individual extends Participante {
 		return senha;
 	}
 
-	public void setSenha(String senha) throws Exception {
-		if (senha.isEmpty()) {
-			throw new Exception("Um indivíduo não pode ter senha vazia");
-		} else {
-			this.senha = senha;
-		}
+	public void setSenha(String senha) {
+		this.senha = senha;
+		
 	}
 
 	public boolean getAdministrador() {
@@ -54,7 +49,6 @@ public class Individual extends Participante {
 	
 	public void addGrupo(Grupo grupo) {
 		this.grupos.add(grupo);
-		this.setGrupos(grupos);
 	}
 	
 	public void rmvGrupo(Grupo grupo) {
@@ -92,9 +86,9 @@ public class Individual extends Participante {
         StringBuilder sb = new StringBuilder();
         sb.append("Nome: ").append(super.getNome()).append("\n");
         sb.append("Mensagens Enviadas: ").append("\n").append("\n");
-        sb.append(Fachada.getRepositorio().enviadas(getNome())).append("\n");
+        sb.append(this.getEnviadas()).append("\n");
         sb.append("Mensagens Recebidas: ").append("\n");
-        sb.append(Fachada.getRepositorio().recebidas(getNome()));
+        sb.append(this.getRecebidas());
         return sb.toString();
     }
 

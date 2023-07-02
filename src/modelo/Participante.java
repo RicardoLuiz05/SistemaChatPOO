@@ -2,26 +2,21 @@ package modelo;
 
 import java.util.ArrayList;
 
-import regras_negocio.Fachada;
-
 public class Participante {
 	
 	private String nome;
 	private ArrayList<Mensagem> recebidas = new ArrayList<>();
 	private ArrayList<Mensagem> enviadas = new ArrayList<>();
 	
-	public Participante(String nome) throws Exception {
-		this.setNome(nome);
+	public Participante(String nome) {
+		this.nome = nome;
 	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) throws Exception {
-		if (nome.equals("") || Fachada.getRepositorio().existeParticipante(nome)) {
-			throw new Exception("Nome vazio ou já existente");
-		}
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
