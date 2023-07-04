@@ -19,6 +19,7 @@ public class Repositorio {
     public Repositorio() {
     	participantes = new TreeMap<>();
     	mensagens = new ArrayList<>();
+    	this.carregarObjetos();
     }
 
     public TreeMap<String, Participante> getParticipantes() {

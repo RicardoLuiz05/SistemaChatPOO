@@ -60,6 +60,7 @@ public class TelaParticipante {
 	private JLabel lblSenha_1;
 	private JButton button_1;
 	private JTextField grupo_add;
+	private JButton button_2;
 
 	/**
 	 * Launch the application.
@@ -102,7 +103,7 @@ public class TelaParticipante {
 			}
 		});
 		frame.setTitle("Participantes");
-		frame.setBounds(100, 100, 538, 323);
+		frame.setBounds(100, 100, 538, 356);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -127,24 +128,24 @@ public class TelaParticipante {
 
 		label = new JLabel("");
 		label.setForeground(Color.RED);
-		label.setBounds(20, 263, 373, 14);
+		label.setBounds(20, 292, 373, 14);
 		frame.getContentPane().add(label);
 
 		lblEmail = new JLabel("Nome");
-		lblEmail.setBounds(20, 209, 46, 14);
+		lblEmail.setBounds(20, 224, 46, 14);
 		frame.getContentPane().add(lblEmail);
 
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(60, 209, 86, 20);
+		textField.setBounds(60, 224, 86, 20);
 		frame.getContentPane().add(textField);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(60, 240, 86, 20);
+		passwordField.setBounds(60, 255, 86, 20);
 		frame.getContentPane().add(passwordField);
 
 		lblSenha = new JLabel("Senha");
-		lblSenha.setBounds(20, 243, 46, 14);
+		lblSenha.setBounds(20, 258, 46, 14);
 		frame.getContentPane().add(lblSenha);
 
 		button = new JButton("Criar");
@@ -165,14 +166,14 @@ public class TelaParticipante {
 
 			}
 		});
-		button.setBounds(275, 229, 74, 23);
+		button.setBounds(275, 244, 74, 23);
 		frame.getContentPane().add(button);
 
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Tipo",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(154, 205, 107, 61);
+		panel.setBounds(154, 220, 107, 61);
 		frame.getContentPane().add(panel);
 		panel.setLayout(new GridLayout(2, 0));
 
@@ -218,6 +219,22 @@ public class TelaParticipante {
 		});
 		button_1.setBounds(372, 254, 126, 23);
 		frame.getContentPane().add(button_1);
+		
+		button_2 = new JButton("Remover");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String nome = nome_add.getText();
+					String grupo = grupo_add.getText();
+					Fachada.removerGrupo(nome, grupo);
+					label.setText("participante ro grupo");
+				} catch (Exception ex) {
+					label.setText(ex.getMessage());
+				}
+			}
+		});
+		button_2.setBounds(372, 283, 126, 23);
+		frame.getContentPane().add(button_2);
 
 		// temporizador
 		timer = new Timer(0, new ActionListener() {

@@ -1,0 +1,20 @@
+1;joao;maria;oi maria tudo bem?
+2;maria;joao;tudo bem joao!
+3;joao;maria;vamos fazer juntos?
+4;maria;joao;vou criar grupo e chamar jose
+5;joao;joao;teste
+6;maria;grupo1;oi pessoal criei o grupo do projeto
+6;grupo1;joao;maria/oi pessoal criei o grupo do projeto
+6;grupo1;jose;maria/oi pessoal criei o grupo do projeto
+7;joao;grupo1;obrigado maria
+7;grupo1;maria;joao/obrigado maria
+7;grupo1;jose;joao/obrigado maria
+8;jose;grupo1;valeu maria
+8;grupo1;joao;jose/valeu maria
+8;grupo1;maria;jose/valeu maria
+9;maria;grupo1;vamos conversar sobre o projeto hoje
+9;grupo1;joao;maria/vamos conversar sobre o projeto hoje
+9;grupo1;jose;maria/vamos conversar sobre o projeto hoje
+10;maria;grupo1;vamos conversar sobre o projeto amanha
+10;grupo1;joao;maria/vamos conversar sobre o projeto amanha
+10;grupo1;jose;maria/vamos conversar sobre o projeto amanha

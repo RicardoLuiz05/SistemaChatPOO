@@ -65,7 +65,7 @@ public class TelaPrincipal {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("4TALK - Sem Participante logado");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 489, 305);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);

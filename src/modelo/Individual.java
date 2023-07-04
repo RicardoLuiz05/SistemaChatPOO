@@ -8,14 +8,6 @@ public class Individual extends Participante {
 	private boolean administrador;
 	private ArrayList<Grupo> grupos = new ArrayList<>();
 	
-	public Individual(String nome, String senha) throws Exception {
-		super(nome);
-		this.senha = senha;
-		if (nome.equals("admin") && senha.equals("admin")) {
-			this.administrador = true;
-		}
-	}
-	
 	public Individual(String nome, String senha, boolean administrador) {
 		super(nome);
 		this.senha = senha;

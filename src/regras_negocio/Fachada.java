@@ -32,6 +32,7 @@ public class Fachada {
 			throw new Exception("criar individual - nome ja existe:" + nome);
 		Individual individuo = new Individual(nome,senha, false);
 		repositorio.adicionar(individuo);
+		repositorio.salvarObjetos();
 	}
 	
 	public static Individual validarIndividuo(String nomeindividuo, String senha) {
@@ -43,14 +44,18 @@ public class Fachada {
 		return null;
 	}
 	
-	public static void criarAdministrador(String nomeadministrador, String senha) throws Exception {
-		Individual individual = repositorio.localizarIndividual(nomeadministrador);	
-		if (individual == null) 
-			throw new Exception("criar administrador - individuo nao existe");
-		if (individual.getAdministrador() == true)
-			throw new Exception("criar administrador - " + nomeadministrador + " já á um administrador");
-		individual.setAdministrador(true);
-	}
+	public static void criarAdministrador(String nomeadministrador,String senha) throws Exception {
+        if(nomeadministrador.isEmpty())
+            throw new Exception("criar individual - nome vazio:");
+        if(senha.isEmpty())
+            throw new Exception("criar individual - senha vazia:");
+        Participante p = repositorio.localizarParticipante(nomeadministrador);
+        if(p != null)
+            throw new Exception("criar admin - nome ja existe:" + nomeadministrador);
+        Individual individuo = new Individual(nomeadministrador, senha, true);
+        repositorio.adicionar(individuo);
+        repositorio.salvarObjetos();
+    }
 	
 	public static void criarGrupo(String nomegrupo) throws Exception {
 		if (repositorio.localizarParticipante(nomegrupo) == null) {
@@ -58,6 +63,7 @@ public class Fachada {
 		} else {
 			throw new Exception("criar grupo - grupo já existente");
 		}
+		repositorio.salvarObjetos();
 	}
 	
 	public static void inserirGrupo(String nomeindividuo, String nomegrupo) throws Exception {
@@ -73,6 +79,7 @@ public class Fachada {
 			grupo.addParticipante(individual);
 			individual.addGrupo(grupo);
 		}
+		repositorio.salvarObjetos();
 	}
 	
 	public static void removerGrupo(String nomeindividuo, String nomegrupo) throws Exception {
@@ -88,6 +95,7 @@ public class Fachada {
 			grupo.rmvParticipante(individual);
 			individual.rmvGrupo(grupo);
 		}
+		repositorio.salvarObjetos();
 	}
 	
 	public static void criarMensagem(String nomeemitente, String nomedestinatario, String texto) throws Exception {
@@ -117,6 +125,7 @@ public class Fachada {
 			}
 		}
 		idMensagem++;
+		repositorio.salvarObjetos();
 	}
 	
 	public static ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) throws Exception {
@@ -163,6 +172,7 @@ public class Fachada {
 				for (Mensagem msg : i.getRecebidas()) 
 					if (msg.equals(m)) 
 						i.removerRecebida(m);
+		repositorio.salvarObjetos();
 	}
 	
 	public static ArrayList<Mensagem> listarMensagens() {
