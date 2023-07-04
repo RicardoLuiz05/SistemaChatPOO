@@ -60,6 +60,10 @@ public class Mensagem {
 		return datahora;
 	}
 	
+	public String getData() {
+		return datahora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+	}
+	
 	public void setDatahora(LocalDateTime datahora) {
 		this.datahora = datahora;
 	}

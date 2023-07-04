@@ -55,6 +55,11 @@ public class TelaParticipante {
 	private JRadioButton radioButton_1;
 	private ButtonGroup grupobotoes;
 	private Timer timer; // temporizador
+	private JLabel lblEmail_1;
+	private JTextField nome_add;
+	private JLabel lblSenha_1;
+	private JButton button_1;
+	private JTextField grupo_add;
 
 	/**
 	 * Launch the application.
@@ -122,24 +127,24 @@ public class TelaParticipante {
 
 		label = new JLabel("");
 		label.setForeground(Color.RED);
-		label.setBounds(44, 259, 373, 14);
+		label.setBounds(20, 263, 373, 14);
 		frame.getContentPane().add(label);
 
 		lblEmail = new JLabel("Nome");
-		lblEmail.setBounds(54, 205, 46, 14);
+		lblEmail.setBounds(20, 209, 46, 14);
 		frame.getContentPane().add(lblEmail);
 
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(94, 205, 86, 20);
+		textField.setBounds(60, 209, 86, 20);
 		frame.getContentPane().add(textField);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(94, 236, 86, 20);
+		passwordField.setBounds(60, 240, 86, 20);
 		frame.getContentPane().add(passwordField);
 
 		lblSenha = new JLabel("Senha");
-		lblSenha.setBounds(54, 239, 46, 14);
+		lblSenha.setBounds(20, 243, 46, 14);
 		frame.getContentPane().add(lblSenha);
 
 		button = new JButton("Criar");
@@ -160,14 +165,14 @@ public class TelaParticipante {
 
 			}
 		});
-		button.setBounds(309, 225, 74, 23);
+		button.setBounds(275, 229, 74, 23);
 		frame.getContentPane().add(button);
 
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Tipo",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(188, 201, 107, 61);
+		panel.setBounds(154, 205, 107, 61);
 		frame.getContentPane().add(panel);
 		panel.setLayout(new GridLayout(2, 0));
 
@@ -179,6 +184,40 @@ public class TelaParticipante {
 		grupobotoes = new ButtonGroup(); // permite selecao unica dos botoes
 		grupobotoes.add(radioButton);
 		grupobotoes.add(radioButton_1);
+		
+		lblEmail_1 = new JLabel("Nome");
+		lblEmail_1.setBounds(372, 209, 46, 14);
+		frame.getContentPane().add(lblEmail_1);
+		
+		nome_add = new JTextField();
+		nome_add.setColumns(10);
+		nome_add.setBounds(412, 205, 86, 20);
+		frame.getContentPane().add(nome_add);
+		
+		lblSenha_1 = new JLabel("Grupo");
+		lblSenha_1.setBounds(371, 233, 46, 14);
+		frame.getContentPane().add(lblSenha_1);
+
+		grupo_add = new JTextField();
+		grupo_add.setColumns(10);
+		grupo_add.setBounds(412, 230, 86, 20);
+		frame.getContentPane().add(grupo_add);
+		
+		button_1 = new JButton("Adicionar");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String nome = nome_add.getText();
+					String grupo = grupo_add.getText();
+					Fachada.inserirGrupo(nome, grupo);
+					label.setText("participante inserido no grupo");
+				} catch (Exception ex) {
+					label.setText(ex.getMessage());
+				}
+			}
+		});
+		button_1.setBounds(372, 254, 126, 23);
+		frame.getContentPane().add(button_1);
 
 		// temporizador
 		timer = new Timer(0, new ActionListener() {
