@@ -156,24 +156,33 @@ public class Fachada {
 			return conversa;
 	}
 	
-	public static void apagarMensagem(String nomeindividuo, int id) throws Exception {
-		Individual emitente = repositorio.localizarIndividual(nomeindividuo);	
-		if(emitente == null) 
-			throw new Exception("apagar mensagem - nome nao existe:" + nomeindividuo);
-		Mensagem m = emitente.localizarEnviada(id);
-		if(m == null)
-			throw new Exception("apagar mensagem - mensagem nao pertence a este individuo:" + id);
-		emitente.removerEnviada(m);
-		Participante destinatario = m.getDestinatario();
-		destinatario.removerRecebida(m);
-		repositorio.remover(m);	
-		if (destinatario instanceof Grupo g) 
-			for (Individual i : g.getIndividuos()) 
-				for (Mensagem msg : i.getRecebidas()) 
-					if (msg.equals(m)) 
-						i.removerRecebida(m);
-		repositorio.salvarObjetos();
-	}
+	public static void apagarMensagem(String nomeindividuo, int id) throws  Exception{
+        Individual emitente = repositorio.localizarIndividual(nomeindividuo);
+        if(emitente == null)
+            throw new Exception("apagar mensagem - nome nao existe:" + nomeindividuo);
+        Mensagem m = emitente.localizarEnviada(id);
+        if(m == null)
+            throw new Exception("apagar mensagem - mensagem nao pertence a este individuo:" + id);
+        emitente.removerEnviada(m);
+        Participante destinatario = m.getDestinatario();
+        destinatario.removerRecebida(m);
+        repositorio.remover(m);
+        if(destinatario instanceof Grupo g) {
+            ArrayList<Mensagem> lista = destinatario.getEnviadas();
+            lista.removeIf(new Predicate<>() {
+                @Override
+                public boolean test(Mensagem t) {
+                    if (t.getId() == m.getId()) {
+                        t.getDestinatario().removerRecebida(t);
+                        repositorio.remover(t);
+                        return true;
+                    } else
+                        return false;
+                }
+            });
+        }
+        repositorio.salvarObjetos();
+    }
 	
 	public static ArrayList<Mensagem> listarMensagens() {
 		return repositorio.getMensagens();
