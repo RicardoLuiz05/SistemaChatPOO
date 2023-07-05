@@ -109,51 +109,51 @@ public class Fachada {
 			throw new Exception("criar mensagem - destinatario nao existe:" + nomeemitente);
 		if(destinatario instanceof Grupo g && emitente.localizarGrupo(g.getNome())==null)
 			throw new Exception("criar mensagem - grupo nao permitido:" + nomedestinatario);
-		Mensagem m = new Mensagem(idMensagem, emitente, destinatario, texto);
+		Mensagem m = new Mensagem(repositorio.gerarID(), emitente, destinatario, texto);
 		emitente.getEnviadas().add(m);
 		destinatario.getRecebidas().add(m);
-		repositorio.getMensagens().add(m);
+		repositorio.adicionar(m);
 		if (destinatario instanceof Grupo grupo) {
 			texto = nomeemitente + "/" + texto;
 			for (Individual i : grupo.getIndividuos()) {
 				if (!i.getNome().equals(nomeemitente)) {
-					Mensagem mensagem = new Mensagem(idMensagem, grupo, i, texto);
+					Mensagem mensagem = new Mensagem(m.getId(), grupo, i, texto);
 					grupo.getEnviadas().add(mensagem);
 					i.getRecebidas().add(mensagem);
-					repositorio.getMensagens().add(mensagem);
+					repositorio.adicionar(mensagem);
 				}
 			}
 		}
-		idMensagem++;
 		repositorio.salvarObjetos();
 	}
 	
-	public static ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) throws Exception {
-		Individual emitente = repositorio.localizarIndividual(nomeindividuo);	
-		if(emitente == null) 
-			throw new Exception("obter conversa - emitente nao encontrado");
-		Participante destinatario = repositorio.localizarParticipante(nomedestinatario);	
-		if(destinatario == null) 
-			throw new Exception("obter conversa - destinatario nao encontrado");
-			ArrayList<Mensagem> enviadas= emitente.getEnviadas();
-			ArrayList<Mensagem> recebidas= emitente.getRecebidas();
-			ArrayList<Mensagem> conversa= new ArrayList<>();
-			for(Mensagem m : enviadas) {
-				if(m.getDestinatario().getNome().equals(nomedestinatario)) {
-					conversa.add(m);
-				}
-			}
-			for(Mensagem m : recebidas) {
-				if(m.getEmitente().getNome().equals(nomeindividuo)) {
-					conversa.add(m);
-				}
-			}
-			Collections.sort(conversa,new Comparator<Mensagem>() {
-				public int compare(Mensagem m1,Mensagem m2) {
-					return Integer.compare(m1.getId(), m2.getId());
-				}
-			});
-			return conversa;
+	public static ArrayList<Mensagem> obterConversa(String nomeemitente, String nomedestinatario) throws Exception{
+        Individual emitente = repositorio.localizarIndividual(nomeemitente);
+        if(emitente == null)
+            throw new Exception("obter conversa - emitente nao existe:" + nomeemitente);
+        Participante destinatario = repositorio.localizarParticipante(nomedestinatario);
+	    if(destinatario == null)
+	        throw new Exception("obter conversa - destinatario nao existe:" + nomedestinatario);
+	    ArrayList<Mensagem> lista1 = emitente.getEnviadas();
+	    ArrayList<Mensagem> lista2 = destinatario.getEnviadas();
+	    ArrayList<Mensagem> conversa = new ArrayList<>();
+	    for(Mensagem m : lista1){
+	        if(m.getDestinatario().equals(destinatario)){
+	            conversa.add(m);
+	        }
+	    }
+	    for(Mensagem m : lista2){
+	        if(m.getDestinatario().equals(emitente)){
+	            conversa.add(m);
+	        }
+	    }
+	    conversa.sort(new Comparator<Mensagem>() {
+	        @Override
+	        public int compare(Mensagem m1, Mensagem m2) {
+	            return Integer.compare(m1.getId(), m2.getId());
+	        }
+	    });
+	    return conversa;
 	}
 	
 	public static void apagarMensagem(String nomeindividuo, int id) throws  Exception{
@@ -163,18 +163,18 @@ public class Fachada {
         Mensagem m = emitente.localizarEnviada(id);
         if(m == null)
             throw new Exception("apagar mensagem - mensagem nao pertence a este individuo:" + id);
-        emitente.removerEnviada(m);
+        emitente.removerEnviadas(m);
         Participante destinatario = m.getDestinatario();
-        destinatario.removerRecebida(m);
-        repositorio.remover(m);
+        destinatario.removerRecebidas(m);
+        repositorio.removerMensagem(m);
         if(destinatario instanceof Grupo g) {
             ArrayList<Mensagem> lista = destinatario.getEnviadas();
             lista.removeIf(new Predicate<>() {
                 @Override
                 public boolean test(Mensagem t) {
                     if (t.getId() == m.getId()) {
-                        t.getDestinatario().removerRecebida(t);
-                        repositorio.remover(t);
+                        t.getDestinatario().removerRecebidas(t);
+                        repositorio.removerMensagem(t);
                         return true;
                     } else
                         return false;

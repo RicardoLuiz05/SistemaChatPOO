@@ -36,6 +36,10 @@ public class Participante {
 		this.enviadas = enviadas;
 	}
 	
+	public void adicionarEnviada(Mensagem mensagem) {
+		this.enviadas.add(mensagem);
+	}
+	
 	public void removerRecebida(Mensagem mensagem) {
 		for (Mensagem m : this.getRecebidas()) {
 			if (m.equals(mensagem)) {
@@ -43,6 +47,14 @@ public class Participante {
 			}
 		}
 	}
+	
+	public void removerEnviadas(Mensagem msg){
+        enviadas.remove(msg);
+    }
+	
+	public void removerRecebidas(Mensagem msg){
+        recebidas.remove(msg);
+    }
 
 	@Override
 	public String toString() {

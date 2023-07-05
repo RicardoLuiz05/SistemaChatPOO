@@ -127,8 +127,8 @@ public class Teste1 {
 
 			System.out.println("\napagar a ultima mensagem enviada de maria");
 			Mensagem ultima = lista.get(lista.size()-1);
-			Fachada.apagarMensagem("maria", ultima.getId());
 			System.out.println("apagou a mensagem "+ultima.getId());
+			Fachada.apagarMensagem("maria", ultima.getId());
 
 		} catch (Exception e) 	{
 			System.out.println(e.getMessage());

@@ -89,6 +89,24 @@ public class Repositorio {
     	return grupos;
     }
     
+    public void removerMensagem(Mensagem msg){
+        mensagens.remove(msg);
+    }
+    
+    public int gerarID() {
+        if (mensagens.isEmpty()) {
+            return 1;
+        } else {
+            int maiorId = Integer.MIN_VALUE;
+            for (Mensagem mensagem : mensagens) {
+                if (mensagem.getId() > maiorId) {
+                    maiorId = mensagem.getId();
+                }
+            }
+            return maiorId + 1;
+        }
+    }
+    
 	public void carregarObjetos()  	{
 		// carregar para o repositorio os objetos dos arquivos csv
 		try {
