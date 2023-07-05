@@ -15,7 +15,6 @@ import java.util.Comparator;
 public class Fachada {
 	
 	private static Repositorio repositorio = new Repositorio();
-	private static int idMensagem = 1;
 	
 	public static Repositorio getRepositorio() {
 		return repositorio;
@@ -110,16 +109,16 @@ public class Fachada {
 		if(destinatario instanceof Grupo g && emitente.localizarGrupo(g.getNome())==null)
 			throw new Exception("criar mensagem - grupo nao permitido:" + nomedestinatario);
 		Mensagem m = new Mensagem(repositorio.gerarID(), emitente, destinatario, texto);
-		emitente.getEnviadas().add(m);
-		destinatario.getRecebidas().add(m);
+		emitente.adicionarEnviada(m);
+		destinatario.adicionarRecebida(m);
 		repositorio.adicionar(m);
 		if (destinatario instanceof Grupo grupo) {
 			texto = nomeemitente + "/" + texto;
 			for (Individual i : grupo.getIndividuos()) {
 				if (!i.getNome().equals(nomeemitente)) {
 					Mensagem mensagem = new Mensagem(m.getId(), grupo, i, texto);
-					grupo.getEnviadas().add(mensagem);
-					i.getRecebidas().add(mensagem);
+					grupo.adicionarEnviada(mensagem);
+					i.adicionarRecebida(mensagem);
 					repositorio.adicionar(mensagem);
 				}
 			}

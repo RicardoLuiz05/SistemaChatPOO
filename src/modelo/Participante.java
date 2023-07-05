@@ -40,6 +40,10 @@ public class Participante {
 		this.enviadas.add(mensagem);
 	}
 	
+	public void adicionarRecebida(Mensagem mensagem) {
+		this.recebidas.add(mensagem);
+	}
+	
 	public void removerRecebida(Mensagem mensagem) {
 		for (Mensagem m : this.getRecebidas()) {
 			if (m.equals(mensagem)) {

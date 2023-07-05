@@ -31,30 +31,15 @@ public class Repositorio {
     }
     
     public Individual localizarIndividual(String nome) {
-    	for (Participante participante : participantes.values()) {
-    		if (participante instanceof Individual i && participante.getNome().equals(nome)) {
-    			return i;
-    		}
-    	}
-    	return null;
+    	return (Individual) participantes.get(nome);
     }
     
     public Participante localizarParticipante(String nome) {
-    	for (Participante participante : participantes.values()) {
-    		if (participante.getNome().equals(nome)) {
-    			return participante;
-    		}
-    	}
-    	return null;
+    	return participantes.get(nome);
     }
     
     public Grupo localizarGrupo(String nome) {
-    	for (Participante participante : participantes.values()) {
-    		if (participante instanceof Grupo g && participante.getNome().equals(nome)) {
-    			return g;
-    		}
-    	}
-    	return null;
+    	return (Grupo) participantes.get(nome);
     }
     
     public void adicionar(Participante participante) {
